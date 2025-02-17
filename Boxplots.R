@@ -21,14 +21,14 @@ A<- cbind(bins8,bins15,bins30)
 boxplot(A)
 abline(h=68)
 
-#pdf("UniMUEM1.pdf")
+pdf("UniMUEM1.pdf")
 boxplot(A,main="Estimation of MU using EM Algorithm",xlab="sample Size",
         ylab="Mean",col=c("blue","blue","blue","blue","blue",
                           "red","red","red","red","red",
                           "green","green","green","green","green"),las=2,cex.axis=0.70)
 abline(h=68)
 legend("topright",c("8 bins","15 bins","30 bins"),fill=c("blue","red","green"),border="black")
-#dev.off()
+dev.off()
 
 
 #pdf("MUEqual.pdf")
@@ -223,36 +223,18 @@ boxplot(DD,main="Estimation of MU using MCEM Algorithm",xlab="sample Size",
 abline(h=3.24)
 #############################################################################################################
 #############################################################################
-pdf("UnivariateVar.pdf")
+pdf("UnivariateVar11.pdf")
 par(mfrow=c(2,2))
 par(mar=c(4,4,4,4))
 
-boxplot(DD,main="Estimation of Variance using MLE Ignoring Grouping",xlab="sample Size",
+boxplot(AA,main="Estimation of MU using EM Algorithm",xlab="sample Size",
         ylab="Variance",col=c("blue","blue","blue","blue","blue",
                               "red","red","red","red","red",
                               "green","green","green","green","green"),las=2,cex.axis=0.70,cex.main=0.7,ylim=c(1,6))
 abline(h=3.24)
 legend("topright",c("8 bins","15 bins","30 bins"),fill=c("blue","red","green"),border="black",cex=0.5)
 
-
-boxplot(CC,main="Estimation of Variance using MLE Exact",xlab="sample Size",
-        ylab="Variance",col=c("blue","blue","blue","blue","blue",
-                              "red","red","red","red","red",
-                              "green","green","green","green","green"),las=2,cex.axis=0.70,cex.main=0.7,ylim=c(1,6))
-abline(h=3.24)
-legend("topright",c("8 bins","15 bins","30 bins"),fill=c("blue","red","green"),border="black",cex=0.5)
-
-
-
-
-boxplot(AA,main="Estimation of Variance using EM Algorithm",xlab="sample Size",
-        ylab="Variance",col=c("blue","blue","blue","blue","blue",
-                              "red","red","red","red","red",
-                              "green","green","green","green","green"),las=2,cex.axis=0.70,cex.main=0.7,ylim=c(1,6))
-abline(h=3.24)
-legend("topright",c("8 bins","15 bins","30 bins"),fill=c("blue","red","green"),border="black",cex=0.5)
-
-boxplot(BB,main="Estimation of Variance using MCEM Algorithm",xlab="sample Size",
+boxplot(BB,main="Estimation of MU using MCEM Algorithm",xlab="sample Size",
         ylab="Variance",col=c("blue","blue","blue","blue","blue",
                               "red","red","red","red","red",
                               "green","green","green","green","green"),las=2,cex.axis=0.70,cex.main=0.7,ylim=c(1,6))
