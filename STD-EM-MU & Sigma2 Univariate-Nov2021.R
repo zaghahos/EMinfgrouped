@@ -1,7 +1,4 @@
-#thetaupd<- c(output1000m15EM[1,1],sqrt(output1000m15EM[1,2]))
-#thetaupd
-#output1000m15EM
-#######################################################################################
+#####Standard Errors of EM estimates-Univariate ##################
 Muvarstd<- function(thetaupd,bl,bu,Freq,Data){ 
   Wj<- rep(0,length(bl)) 
   WjN<- rep(0,length(bl)) 
@@ -69,9 +66,10 @@ Muvarstd<- function(thetaupd,bl,bu,Freq,Data){
   
   #print(IME)
   InfME<- apply(IME,c(1,2),sum)
-  var_EM_est<- 1/diag(InfME)
+  
+  var_EM_est<- solve(InfME)
   #print(var_EM_est)
-  std_EM_est<- sqrt(var_EM_est)
+  std_EM_est<- sqrt(diag(var_EM_est))
   #print(std_EM_est)
   #print(dim(IM))
   
@@ -100,56 +98,6 @@ Muvarstd<- function(thetaupd,bl,bu,Freq,Data){
 #1/(sqrt(2))
 ################################################################################################
 #############################################################################################################
-VarstdNew<- function(thetaupd,bl,bu,Freq){ 
-  #Wj<- rep(0,length(bl)) 
-  Ej2<- rep(0,length(bl)) 
-  
-  astar<- rep(0,length(bl)) 
-  bstar<- rep(0,length(bl)) 
-  #Mstdj<- rep(0,length(bl))
-  for(i in 1:length(bl)){
-    bstar[i]<- (bu[i]-thetaupd[1])/thetaupd[2] 
-    astar[i]<- (bl[i]-thetaupd[1])/thetaupd[2] 
-    
-  }
-  dinom<- NULL
-  
-  astar[1]<- -1000 
-  bstar[length(bl)]<- 1000 
-  
-  for(i in 1:length(bl)){ 
-    dinom[i]<- (pnorm(bstar[i])-pnorm(astar[i])) 
-    if(dinom[i]==0) {Ej2[i]<- (bstar[i]*dnorm(bstar[i])-astar[i]*dnorm(astar[i]))/0.0001}
-    
-    
-    else{Ej2[i]<- (bstar[i]*dnorm(bstar[i])-astar[i]*dnorm(astar[i]))/dinom[i]}
-    
-    
-    # Bj[i]<- theta[2]^2*(1-(bstar[i]*dnorm(bstar[i])-astar[i]*dnorm(astar[i]))/(pnorm(bstar[i])-pnorm(astar[i])))
-    #+(muupdate-theta[1])^2+
-    # (2*theta[2]*(muupdate-theta[1])*((dnorm(bstar[i])-dnorm(astar[i]))/(pnorm(bstar[i])-pnorm(astar[i]))))
-    
-  }
-  #print(Ej2)
-  #print(Ej2%*%t(Ej2))
-  #print(diag(Ej2%*%t(Ej2)))
-  #print(Ej2^2)
-  V1<- Ej2^2
-  V2<- Freq*V1
-  V3<- sum(V2)
-  #print(V2)
-  Vstd<- (1/4)*(V3/(thetaupd[2]^4))
-  
-  #SS<- sum(Bj*Freq)/sum(Freq) 
-  #S<- sqrt(SS)
-  return(1/sqrt(Vstd)) 
-}
-
-#i=1
-VarstdNew(thetaupd=c(output1000m15EM[i,1],sqrt(output1000m15EM[i,2])),
-          bl=simdata1000m15[,1,i],bu=simdata1000m15[,2,i],Freq=simdata1000m15[,3,i])
-
-
 #############################################################################################################
 #############################################################################################################
 ### N=1000###
@@ -160,7 +108,11 @@ for(i in 1:nrow(output1000m15EM)){
                    bl=simdata1000m15[,1,i],bu=simdata1000m15[,2,i],Freq=simdata1000m15[,3,i],Data=simdata1000m15[,,i])
   
 }
+
 se_EM_1000
+#se_EM_1000[1:5,]
+
+#se_MCEM1000m15[1:5,]
 
 CI_mu_1000<- matrix(rep(0,2*nrow(output1000m15EM)),nrow=nrow(output1000m15EM),ncol=2)
 colnames(CI_mu_1000)<- c("Lower bound","Upper bound")
@@ -186,7 +138,7 @@ for(i in 1:nrow(output1000m15EM)){
 
 true_mu<- 68
 true_sigma2<- (2.5)^2
-true_sigma2
+#true_sigma2
 
 
 Empirical_conf_mu_1000<- 0
@@ -236,7 +188,7 @@ for(i in 1:nrow(output50m15EM)){
 
 true_mu<- 68
 true_sigma2<- (2.5)^2
-true_sigma2
+#true_sigma2
 
 
 Empirical_conf_mu_50<- 0
@@ -287,7 +239,7 @@ for(i in 1:nrow(output100m15EM)){
 
 true_mu<- 68
 true_sigma2<- (2.5)^2
-true_sigma2
+#true_sigma2
 
 
 Empirical_conf_mu_100<- 0
@@ -338,7 +290,7 @@ for(i in 1:nrow(output300m15EM)){
 
 true_mu<- 68
 true_sigma2<- (2.5)^2
-true_sigma2
+#true_sigma2
 
 
 Empirical_conf_mu_300<- 0
@@ -389,7 +341,7 @@ for(i in 1:nrow(output600m15EM)){
 
 true_mu<- 68
 true_sigma2<- (2.5)^2
-true_sigma2
+#true_sigma2
 
 
 Empirical_conf_mu_600<- 0
@@ -431,6 +383,10 @@ EMP_CI_Sigma2_Prop
 sd_MU<- c(sd(output50m15EM[,1]),sd(output100m15EM[,1]),sd(output300m15EM[,1]),
           sd(output600m15EM[,1]),sd(output1000m15EM[,1]))
 sd_MU
+ave_MU<- c(mean(output50m15EM[,1]),mean(output100m15EM[,1]),mean(output300m15EM[,1]),
+          mean(output600m15EM[,1]),mean(output1000m15EM[,1]))
+ave_MU
+
 Se_MU_hat<- c(mean(se_EM_50[,1]),mean(se_EM_100[,1]),mean(se_EM_300[,1]),mean(se_EM_600[,1]),mean(se_EM_1000[,1]))
 Se_MU_hat
 
@@ -438,14 +394,21 @@ sd_var<- c(sd(output50m15EM[,2]),sd(output100m15EM[,2]),sd(output300m15EM[,2]),
            sd(output600m15EM[,2]),sd(output1000m15EM[,2]))
 sd_var
 
+Ave_var<- c(mean(output50m15EM[,2]),mean(output100m15EM[,2]),mean(output300m15EM[,2]),
+           mean(output600m15EM[,2]),mean(output1000m15EM[,2]))
+Ave_var
+
 Se_Sigma2_hat<-  c(mean(se_EM_50[,2]),mean(se_EM_100[,2]),mean(se_EM_300[,2]),mean(se_EM_600[,2]),mean(se_EM_1000[,2]))
 Se_Sigma2_hat
+########################################################################################################################
+
+
 ##########################################################################################################################################
 #######################################################################################################################
-std_Mu_estimates<- cbind(n,sd_MU,Se_MU_hat,EMP_CI_MU_Prop)
+std_Mu_estimates<- cbind(n,ave_MU,sd_MU,Se_MU_hat,EMP_CI_MU_Prop)
 std_Mu_estimates
 
-std_Sigma2_estimates<- cbind(n,sd_var,Se_Sigma2_hat,EMP_CI_Sigma2_Prop)
+std_Sigma2_estimates<- cbind(n,Ave_var,sd_var,Se_Sigma2_hat,EMP_CI_Sigma2_Prop)
 std_Sigma2_estimates
 
 library(xtable)
